@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Juspay Payment</title>
+</head>
+<body>
+<h1>Make a Payment</h1>
+<form th:action="@{/payment/initiate}" method="post" th:object="${orderRequest}">
+    <label>Order ID: <input type="text" th:field="*{orderId}" required /></label><br>
+    <label>Amount: <input type="text" th:field="*{amount}" required /></label><br>
+    <label>Customer ID: <input type="text" th:field="*{customerId}" required /></label><br>
+    <button type="submit">Pay Now</button>
+</form>
+</body>
+</html>
