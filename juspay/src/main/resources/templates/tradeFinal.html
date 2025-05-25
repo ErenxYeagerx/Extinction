@@ -2343,22 +2343,61 @@
           studies: ["MACD@tv-basicstudies"],
         });
     </script>
+<!--    <script>-->
+<!--        async function fetchBTCPricee() {-->
+<!--          try {-->
+<!--            const response = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');-->
+<!--            const data = await response.json();-->
+<!--            const price = parseFloat(data.price).toFixed(2);-->
+<!--            console.log(`BTCc Price: $${price}`);-->
+<!--            document.getElementById('btc-price').textContent = `$${price}`;-->
+<!--            document.getElementById('btc-pricee').textContent = `${price}`;-->
+<!--            return price;-->
+<!--          } catch (error) {-->
+<!--            console.error('Error fetching BTC price:', error);-->
+<!--          }-->
+<!--        }-->
+<!--    </script>-->
     <script>
+        let previousPrice = null;
+
         async function fetchBTCPricee() {
           try {
             const response = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');
             const data = await response.json();
             const price = parseFloat(data.price).toFixed(2);
-            console.log(`BTCc Price: $${price}`);
-            document.getElementById('btc-price').textContent = `$${price}`;
+
+            const priceElement = document.getElementById('btc-price');
             document.getElementById('btc-pricee').textContent = `${price}`;
-            return price;
+
+            // Compare with previous price
+            if (previousPrice !== null) {
+              if (price > previousPrice) {
+                priceElement.style.color = 'green';
+              } else if (price < previousPrice) {
+                priceElement.style.color = 'red';
+              } else {
+                priceElement.style.color = 'black';
+              }
+            }
+
+            // Set the new price
+            priceElement.textContent = `$${price}`;
+            previousPrice = price; // Update previous price
+
           } catch (error) {
             console.error('Error fetching BTC price:', error);
           }
         }
+
+        // Run on load and every 2 seconds
+        window.onload = () => {
+          fetchBTCPricee();
+          setInterval(fetchBTCPricee, 2000);
+        };
     </script>
-<script>
+
+    <script>
     async function fetchBTCPrice() {
       try {
         const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
